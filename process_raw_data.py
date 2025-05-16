@@ -3,6 +3,16 @@
 import csv
 import sqlite3
 from sqlite3 import connect
+import logging
+
+
+log_handlers = [logging.StreamHandler()]
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=log_handlers
+)
+logger = logging.getLogger(__name__)
 
 
 def download_csv(file_path: str) -> list[list[str]]:
