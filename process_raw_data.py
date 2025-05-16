@@ -4,6 +4,7 @@ import csv
 import sqlite3
 from sqlite3 import connect
 import logging
+import argparse
 
 
 log_handlers = [logging.StreamHandler()]
@@ -13,6 +14,14 @@ logging.basicConfig(
     handlers=log_handlers
 )
 logger = logging.getLogger(__name__)
+
+
+parser = argparse.ArgumentParser(
+    description="Filepath")
+parser.add_argument(
+    "-f", "--filepath", required=True, help="Input the filepath of the file you want to process")
+args = parser.parse_args()
+file_path = args.filepath
 
 
 def download_csv(file_path: str) -> list[list[str]]:
@@ -104,7 +113,8 @@ if __name__ == "__main__":
         cursor = sqliteConnection.cursor()
         logger.info("Database connection established.")
 
-        cleaned_data = clean_data(download_csv("data/RAW_DATA_1.csv"))
+        cleaned_data = clean_data(download_csv(file_path))
+        # "data/RAW_DATA_1.csv"
         sorted_data = desc_order(cleaned_data)
         write_csv(sorted_data)
 
